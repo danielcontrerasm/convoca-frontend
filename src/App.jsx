@@ -4,8 +4,7 @@ import {
   Puzzle, CheckCircle2, XCircle, BarChart3, LogOut, Settings, ShieldCheck, Upload
 } from "lucide-react";
 
-const API = import.meta.env.VITE_API_URL ;
-
+const API = import.meta.env.VITE_API_URL || "https://convocapro-backend-production.up.railway.app";
 const EXAMS = [
   {
     title: "Examen práctico",
