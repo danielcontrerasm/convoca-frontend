@@ -4,7 +4,7 @@ import {
   Puzzle, CheckCircle2, XCircle, BarChart3, LogOut, Settings, ShieldCheck, Upload
 } from "lucide-react";
 
-const API = import.meta.env.VITE_API_URL || "http://localhost:8080";
+const API = import.meta.env.VITE_API_URL ;
 
 const EXAMS = [
   {
