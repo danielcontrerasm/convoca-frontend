@@ -226,7 +226,7 @@ function Auth({ setUser, setPage }) {
       <div className="container grid-2 grid">
         <div className="card pad">
           <div className="title">{mode === "login" ? "Login" : "Registro"}</div>
-          <p className="subtitle"></b></p>
+          <p className="subtitle"></p>
           <form onSubmit={submit}>
             {mode === "register" && (
               <>
@@ -744,7 +744,7 @@ export default function App() {
           ? <Admin />
           : <section className="section"><div className="container"><div className="card pad"><h2 className="title">Acceso restringido</h2><p>Solo administradores pueden ver esta sección.</p><button className="btn primary" onClick={() => setPage("simulacros")}>Volver a simulacros</button></div></div></section>
       )}
-      {page === "plans" && <Plans />}
+
     </>
   );
 }
