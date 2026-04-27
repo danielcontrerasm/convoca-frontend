@@ -226,7 +226,7 @@ function Auth({ setUser, setPage }) {
       <div className="container grid-2 grid">
         <div className="card pad">
           <div className="title">{mode === "login" ? "Login" : "Registro"}</div>
-          <p className="subtitle">{/* Usuarios demo: <b>admin / 1234</b> o <b>tecnico / 1234 */}</b></p>
+          <p className="subtitle"></b></p>
           <form onSubmit={submit}>
             {mode === "register" && (
               <>
@@ -321,8 +321,6 @@ function Simulacros({ user, setPage, refreshUser, setExamType }) {
           <div className="stat"><div className="small">Accesos totales</div><div className="stat-number">{stats?.totalAccesses ?? "-"}</div></div>
           <div className="stat"><div className="small">Tu perfil</div><div className="stat-number" style={{ fontSize: "1.4rem" }}>{user.profile}</div></div>
         </div>
-
-        <Plans compact />
       </div>
     </section>
   );
@@ -632,8 +630,8 @@ function Plans({ compact = false }) {
         </div>
       </div>
     </section>
-  );
-}*/
+  ); */
+}
 
 function Admin() {
   const [users, setUsers] = useState([]);
