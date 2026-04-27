@@ -608,7 +608,7 @@ function FinalExam({ user, examType, refreshUser }) {
   );
 }
 
-/*
+
 function Plans({ compact = false }) {
   return (
     <section className={compact ? "section" : "section"}>
@@ -630,7 +630,7 @@ function Plans({ compact = false }) {
         </div>
       </div>
     </section>
-  ); */
+  );
 }
 
 function Admin() {
