@@ -26,8 +26,15 @@ const EXAMS = [
        badge: "Premium",
        description: "Preguntas difíciles con opciones plausibles y análisis fino.",
        questions: "50"
-     },
-
+     }
+,
+  {
+    title: "Profesional Territorial 12 - 50",
+    examType: "TERRITORIAL_12_PROFESIONAL_50",
+    badge: "Profesional Pro",
+    description: "Banco técnico ampliado para preparación intensiva.",
+    questions: "100"
+  },
   {
     title: "Técnico Territorial 12 - 50",
     examType: "TERRITORIAL_12_TECNICO_50",
@@ -63,14 +70,7 @@ const EXAMS = [
      description: "Banco técnico ampliado para preparación intensiva.",
      questions: "100"
    }
-,
-  {
-    title: "Profesional Territorial 12 - 50",
-    examType: "TERRITORIAL_12_PROFESIONAL_50",
-    badge: "Profesional Pro",
-    description: "Banco técnico ampliado para preparación intensiva.",
-    questions: "100"
-  }
+
 ];
 
 const PLANS = [
@@ -108,8 +108,8 @@ function Topbar({ page, setPage, user, logout }) {
   const nav = [
     ["home", "Inicio"],
     ["simulacros", "Simulacros"],
-    ["course", "Curso"],
-    ["plans", "Planes"],
+ /*    ["course", "Curso"],
+    ["plans", "Planes"], */
     ["exam", "Examen final"],
     ...(user?.role === "ADMIN" ? [["admin", "Admin"]] : [])
   ];
@@ -226,7 +226,7 @@ function Auth({ setUser, setPage }) {
       <div className="container grid-2 grid">
         <div className="card pad">
           <div className="title">{mode === "login" ? "Login" : "Registro"}</div>
-          <p className="subtitle">Usuarios demo: <b>admin / 1234</b> o <b>tecnico / 1234</b></p>
+          <p className="subtitle">{/* Usuarios demo: <b>admin / 1234</b> o <b>tecnico / 1234 */}</b></p>
           <form onSubmit={submit}>
             {mode === "register" && (
               <>
@@ -610,7 +610,7 @@ function FinalExam({ user, examType, refreshUser }) {
   );
 }
 
-
+/*
 function Plans({ compact = false }) {
   return (
     <section className={compact ? "section" : "section"}>
@@ -632,7 +632,7 @@ function Plans({ compact = false }) {
         </div>
       </div>
     </section>
-  );
+  ); */
 }
 
 function Admin() {
