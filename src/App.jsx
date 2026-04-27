@@ -315,12 +315,12 @@ function Simulacros({ user, setPage, refreshUser, setExamType }) {
           </div>
         </div>
 
-        <div className="section grid grid-4">
+      {/*   <div className="section grid grid-4">
           <div className="stat"><div className="small">Usuarios totales</div><div className="stat-number">{stats?.totalUsers ?? "-"}</div></div>
           <div className="stat"><div className="small">Usuarios activos</div><div className="stat-number">{stats?.activeUsers ?? "-"}</div></div>
           <div className="stat"><div className="small">Accesos totales</div><div className="stat-number">{stats?.totalAccesses ?? "-"}</div></div>
           <div className="stat"><div className="small">Tu perfil</div><div className="stat-number" style={{ fontSize: "1.4rem" }}>{user.profile}</div></div>
-        </div>
+        </div> */}
       </div>
     </section>
   );
