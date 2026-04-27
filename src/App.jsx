@@ -27,13 +27,7 @@ const EXAMS = [
        description: "Preguntas difíciles con opciones plausibles y análisis fino.",
        questions: "50"
      },
-  {
-    title: "Simulacro Territorial 12",
-    examType: "TERRITORIAL_12",
-    badge: "Simulacro",
-    description: "Banco separado para preparación de Territorial 12.",
-    questions: "200"
-  },
+
   {
     title: "Técnico Territorial 12 - 50",
     examType: "TERRITORIAL_12_TECNICO_50",
@@ -45,6 +39,35 @@ const EXAMS = [
     title: "Técnico Territorial 12 - 100",
     examType: "TERRITORIAL_12_TECNICO_100",
     badge: "Técnico Pro",
+    description: "Banco técnico ampliado para preparación intensiva.",
+    questions: "100"
+  },{
+        title: "Simulacro Territorial 12",
+        examType: "TERRITORIAL_12",
+        badge: "Simulacro",
+        description: "Banco separado para preparación de Territorial 12.",
+        questions: "200"
+      },
+     {
+       title: "Asistencial Territorial 12 - 50",
+       examType: "TERRITORIAL_12_ASISTENCIAL_50",
+       badge: "Asistencial Pro",
+       description: "Banco técnico ampliado para preparación intensiva.",
+       questions: "100"
+     }
+ ,
+   {
+     title: "Asistencial Territorial 12 - 50 Segundo Examen",
+     examType: "TERRITORIAL_12_ASISTENCIAL_50_2",
+     badge: "Asistencial Pro",
+     description: "Banco técnico ampliado para preparación intensiva.",
+     questions: "100"
+   }
+,
+  {
+    title: "Profesional Territorial 12 - 50",
+    examType: "TERRITORIAL_12_PROFESIONAL_50",
+    badge: "Profesional Pro",
     description: "Banco técnico ampliado para preparación intensiva.",
     questions: "100"
   }
