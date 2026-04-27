@@ -13,6 +13,20 @@ const EXAMS = [
     description: "Banco general para entrenar comprensión lectora y competencias básicas.",
     questions: "100–200"
   },
+     {
+       title: "Genérico CNSC Real 100",
+       examType: "GENERIC_CNSC_REAL_100",
+       badge: "Real",
+       description: "Banco genérico con trampas conceptuales, principios y razonamiento.",
+       questions: "100"
+     },
+     {
+       title: "Examen Trampa CNSC 50",
+       examType: "GENERIC_CNSC_TRAP_50",
+       badge: "Premium",
+       description: "Preguntas difíciles con opciones plausibles y análisis fino.",
+       questions: "50"
+     },
   {
     title: "Simulacro Territorial 12",
     examType: "TERRITORIAL_12",
@@ -33,20 +47,6 @@ const EXAMS = [
     badge: "Técnico Pro",
     description: "Banco técnico ampliado para preparación intensiva.",
     questions: "100"
-  },
-  {
-    title: "Genérico CNSC Real 100",
-    examType: "GENERIC_CNSC_REAL_100",
-    badge: "Real",
-    description: "Banco genérico con trampas conceptuales, principios y razonamiento.",
-    questions: "100"
-  },
-  {
-    title: "Examen Trampa CNSC 50",
-    examType: "GENERIC_CNSC_TRAP_50",
-    badge: "Premium",
-    description: "Preguntas difíciles con opciones plausibles y análisis fino.",
-    questions: "50"
   }
 ];
 
