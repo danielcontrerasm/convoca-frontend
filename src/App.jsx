@@ -632,8 +632,8 @@ function Plans({ compact = false }) {
         </div>
       </div>
     </section>
-  ); */
-}
+  );
+}*/
 
 function Admin() {
   const [users, setUsers] = useState([]);
