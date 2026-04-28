@@ -11,7 +11,7 @@ const EXAMS = [
     examType: "GENERIC",
     badge: "Base",
     description: "Banco general para entrenar comprensión lectora y competencias básicas.",
-    questions: "100–200"
+    questions: "200"
   },
      {
        title: "Genérico CNSC Real 100",
@@ -33,7 +33,7 @@ const EXAMS = [
     examType: "TERRITORIAL_12_PROFESIONAL_50",
     badge: "Profesional Pro",
     description: "Banco técnico ampliado para preparación intensiva.",
-    questions: "100"
+    questions: "50"
   },
   {
     title: "Técnico Territorial 12 - 50",
@@ -60,7 +60,7 @@ const EXAMS = [
        examType: "TERRITORIAL_12_ASISTENCIAL_50",
        badge: "Asistencial Pro",
        description: "Banco técnico ampliado para preparación intensiva.",
-       questions: "100"
+       questions: "50"
      }
  ,
    {
@@ -68,7 +68,7 @@ const EXAMS = [
      examType: "TERRITORIAL_12_ASISTENCIAL_50_2",
      badge: "Asistencial Pro",
      description: "Banco técnico ampliado para preparación intensiva.",
-     questions: "100"
+     questions: "50"
    }
 
 ];
