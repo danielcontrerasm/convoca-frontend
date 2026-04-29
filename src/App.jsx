@@ -7,6 +7,7 @@ import {
 const API = import.meta.env.VITE_API_URL || "https://convocapro-backend-production.up.railway.app";
 const DEMO_EXAM_TYPE = "DEMO";
 const DEMO_USER_ID = import.meta.env.VITE_DEMO_USER_ID || "7";
+const DEMO_QUESTION_COUNT = 20;
 const EXAMS = [
   {
     title: "Examen práctico",
@@ -105,6 +106,10 @@ function saveUser(user) {
 function normalizeUser(user) {
   if (!user) return user;
   return { ...user, userId: user.userId ?? user.id };
+}
+function getQuestionCount(value) {
+  const count = Number.parseInt(value, 10);
+  return Number.isFinite(count) ? count : null;
 }
 function letterOf(option) {
   return String(option || "").trim().charAt(0);
@@ -276,7 +281,7 @@ function Auth({ setUser, setPage }) {
   );
 }
 
-function Simulacros({ user, setPage, refreshUser, setExamType }) {
+function Simulacros({ user, setPage, refreshUser, setSelectedExam }) {
   const [stats, setStats] = useState(null);
 
   useEffect(() => {
@@ -319,7 +324,7 @@ function Simulacros({ user, setPage, refreshUser, setExamType }) {
                 <h3>{exam.title}</h3>
                 <p>{exam.description}</p>
                 <div className="mini"><b>{exam.questions}</b> preguntas</div>
-                <button className="btn dark" onClick={() => { setExamType(exam.examType); setPage("exam"); }}>
+                <button className="btn dark" onClick={() => { setSelectedExam(exam); setPage("exam"); }}>
                   Abrir simulacro
                 </button>
               </div>
@@ -453,14 +458,16 @@ function Course({ user }) {
   );
 }
 
-function FinalExam({ user, examType, refreshUser, setPage }) {
+function FinalExam({ user, selectedExam, refreshUser, setPage }) {
   const [questions, setQuestions] = useState([]);
   const [current, setCurrent] = useState(0);
   const [answers, setAnswers] = useState({});
   const [result, setResult] = useState(null);
   const [error, setError] = useState("");
+  const examType = selectedExam.examType;
   const isDemo = examType === DEMO_EXAM_TYPE;
   const requestUserId = user?.userId ?? (isDemo ? DEMO_USER_ID : null);
+  const questionCount = getQuestionCount(selectedExam.questions);
 
   async function load() {
     if (!requestUserId) return;
@@ -468,10 +475,11 @@ function FinalExam({ user, examType, refreshUser, setPage }) {
     try {
       const params = new URLSearchParams({ examType });
       params.set("userId", requestUserId);
+      if (questionCount) params.set("limit", String(questionCount));
       const res = await fetch(`${API}/api/exams/full?${params.toString()}`);
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "No se pudo cargar el examen");
-      setQuestions(data);
+      setQuestions(questionCount ? data.slice(0, questionCount) : data);
       setCurrent(0);
       setResult(null);
       setAnswers({});
@@ -480,7 +488,7 @@ function FinalExam({ user, examType, refreshUser, setPage }) {
     }
   }
 
-  useEffect(() => { load(); }, [user?.userId, examType]);
+  useEffect(() => { load(); }, [user?.userId, examType, questionCount]);
 
   async function submit() {
     setError("");
@@ -584,7 +592,7 @@ function FinalExam({ user, examType, refreshUser, setPage }) {
       <div className="container exam-shell">
         <div className="card pad">
           <div className="badge">Examen final · {isDemo ? "DEMO" : user.profile} · {examType}</div>
-          <h2 className="title" style={{ fontSize: "1.6rem", marginTop: 16 }}>200 preguntas</h2>
+          <h2 className="title" style={{ fontSize: "1.6rem", marginTop: 16 }}>{questionCount ?? questions.length} preguntas</h2>
           <p className="small">Respondidas: {answered}/{questions.length}</p>
           <div className="progress"><div style={{ width: `${pct}%` }} /></div>
           <div className="qnav">
@@ -740,10 +748,16 @@ function Admin() {
 export default function App() {
   const [page, setPage] = useState("home");
   const [user, setUser] = useState(readUser());
-  const [examType, setExamType] = useState("GENERIC");
+  const [selectedExam, setSelectedExam] = useState(EXAMS[0]);
 
   function openDemoExam() {
-    setExamType(DEMO_EXAM_TYPE);
+    setSelectedExam({
+      title: "Demo",
+      examType: DEMO_EXAM_TYPE,
+      badge: "Demo",
+      description: "Examen demo.",
+      questions: String(DEMO_QUESTION_COUNT)
+    });
     setPage("exam");
   }
 
@@ -760,14 +774,14 @@ export default function App() {
         setPage={setPage}
         user={user}
         logout={logout}
-        examType={examType}
+        examType={selectedExam.examType}
         openDemoExam={openDemoExam}
       />
       {page === "home" && <Home setPage={setPage} />}
       {page === "auth" && <Auth setUser={setUser} setPage={setPage} />}
-      {page === "simulacros" && <Simulacros user={user} setPage={setPage} refreshUser={setUser} setExamType={setExamType} />}
+      {page === "simulacros" && <Simulacros user={user} setPage={setPage} refreshUser={setUser} setSelectedExam={setSelectedExam} />}
       {page === "course" && <Course user={user} />}
-      {page === "exam" && <FinalExam user={user} examType={examType} refreshUser={setUser} setPage={setPage} />}
+      {page === "exam" && <FinalExam user={user} selectedExam={selectedExam} refreshUser={setUser} setPage={setPage} />}
       {page === "admin" && (
         user?.role === "ADMIN"
           ? <Admin />
