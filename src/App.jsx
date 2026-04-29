@@ -6,6 +6,7 @@ import {
 
 const API = import.meta.env.VITE_API_URL || "https://convocapro-backend-production.up.railway.app";
 const DEMO_EXAM_TYPE = "DEMO";
+const DEMO_USER_ID = import.meta.env.VITE_DEMO_USER_ID || "7";
 const EXAMS = [
   {
     title: "Examen práctico",
@@ -96,10 +97,14 @@ const PLANS = [
 ];
 
 function readUser() {
-  try { return JSON.parse(localStorage.getItem("convocapro-user") || "null"); } catch { return null; }
+  try { return normalizeUser(JSON.parse(localStorage.getItem("convocapro-user") || "null")); } catch { return null; }
 }
 function saveUser(user) {
-  localStorage.setItem("convocapro-user", JSON.stringify(user));
+  localStorage.setItem("convocapro-user", JSON.stringify(normalizeUser(user)));
+}
+function normalizeUser(user) {
+  if (!user) return user;
+  return { ...user, userId: user.userId ?? user.id };
 }
 function letterOf(option) {
   return String(option || "").trim().charAt(0);
@@ -219,8 +224,9 @@ function Auth({ setUser, setPage }) {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Error");
-      saveUser(data);
-      setUser(data);
+      const normalized = normalizeUser(data);
+      saveUser(normalized);
+      setUser(normalized);
       setPage("simulacros");
     } catch (err) {
       setError(err.message || "Error");
@@ -277,7 +283,7 @@ function Simulacros({ user, setPage, refreshUser, setExamType }) {
     fetch(`${API}/api/users/stats`).then(r => r.json()).then(setStats).catch(() => {});
     if (user?.userId) {
       fetch(`${API}/api/users/${user.userId}`).then(r => r.json()).then(data => {
-        const merged = { ...user, ...data, userId: data.id };
+        const merged = normalizeUser({ ...user, ...data, userId: data.id ?? user.userId });
         saveUser(merged);
         refreshUser(merged);
       }).catch(() => {});
@@ -454,13 +460,14 @@ function FinalExam({ user, examType, refreshUser, setPage }) {
   const [result, setResult] = useState(null);
   const [error, setError] = useState("");
   const isDemo = examType === DEMO_EXAM_TYPE;
+  const requestUserId = user?.userId ?? (isDemo ? DEMO_USER_ID : null);
 
   async function load() {
-    if (!isDemo && !user?.userId) return;
+    if (!requestUserId) return;
     setError("");
     try {
       const params = new URLSearchParams({ examType });
-      if (user?.userId) params.set("userId", user.userId);
+      params.set("userId", requestUserId);
       const res = await fetch(`${API}/api/exams/full?${params.toString()}`);
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "No se pudo cargar el examen");
@@ -488,7 +495,7 @@ function FinalExam({ user, examType, refreshUser, setPage }) {
           selectedOption: answers[q.id]
         }))
       };
-      if (user?.userId) payload.userId = user.userId;
+      if (requestUserId) payload.userId = requestUserId;
       const res = await fetch(`${API}/api/exams/submit`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -501,7 +508,7 @@ function FinalExam({ user, examType, refreshUser, setPage }) {
       const userRes = await fetch(`${API}/api/users/${user.userId}`);
       if (userRes.ok) {
         const updated = await userRes.json();
-        const merged = { ...user, ...updated, userId: updated.id };
+        const merged = normalizeUser({ ...user, ...updated, userId: updated.id ?? user.userId });
         saveUser(merged);
         refreshUser(merged);
       }
