@@ -453,12 +453,15 @@ function FinalExam({ user, examType, refreshUser, setPage }) {
   const [answers, setAnswers] = useState({});
   const [result, setResult] = useState(null);
   const [error, setError] = useState("");
+  const isDemo = examType === DEMO_EXAM_TYPE;
 
   async function load() {
-    if (!user?.userId) return;
+    if (!isDemo && !user?.userId) return;
     setError("");
     try {
-      const res = await fetch(`${API}/api/exams/full?userId=${user.userId}&examType=${examType}`);
+      const params = new URLSearchParams({ examType });
+      if (user?.userId) params.set("userId", user.userId);
+      const res = await fetch(`${API}/api/exams/full?${params.toString()}`);
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "No se pudo cargar el examen");
       setQuestions(data);
@@ -480,12 +483,12 @@ function FinalExam({ user, examType, refreshUser, setPage }) {
     }
     try {
       const payload = {
-        userId: user.userId,
         answers: questions.map(q => ({
           questionId: q.id,
           selectedOption: answers[q.id]
         }))
       };
+      if (user?.userId) payload.userId = user.userId;
       const res = await fetch(`${API}/api/exams/submit`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -494,6 +497,7 @@ function FinalExam({ user, examType, refreshUser, setPage }) {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "No se pudo calificar");
       setResult(data);
+      if (!user?.userId) return;
       const userRes = await fetch(`${API}/api/users/${user.userId}`);
       if (userRes.ok) {
         const updated = await userRes.json();
@@ -506,7 +510,7 @@ function FinalExam({ user, examType, refreshUser, setPage }) {
     }
   }
 
-  if (!user) return <NeedLogin setPage={setPage} />;
+  if (!user && !isDemo) return <NeedLogin setPage={setPage} />;
 
   if (error) {
     return (
@@ -572,7 +576,7 @@ function FinalExam({ user, examType, refreshUser, setPage }) {
     <section className="section">
       <div className="container exam-shell">
         <div className="card pad">
-          <div className="badge">Examen final · {user.profile} · {examType}</div>
+          <div className="badge">Examen final · {isDemo ? "DEMO" : user.profile} · {examType}</div>
           <h2 className="title" style={{ fontSize: "1.6rem", marginTop: 16 }}>200 preguntas</h2>
           <p className="small">Respondidas: {answered}/{questions.length}</p>
           <div className="progress"><div style={{ width: `${pct}%` }} /></div>
