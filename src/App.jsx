@@ -5,6 +5,7 @@ import {
 } from "lucide-react";
 
 const API = import.meta.env.VITE_API_URL || "https://convocapro-backend-production.up.railway.app";
+const DEMO_EXAM_TYPE = "DEMO";
 const EXAMS = [
   {
     title: "Examen práctico",
@@ -104,9 +105,10 @@ function letterOf(option) {
   return String(option || "").trim().charAt(0);
 }
 
-function Topbar({ page, setPage, user, logout }) {
+function Topbar({ page, setPage, user, logout, examType, openDemoExam }) {
   const nav = [
     ["home", "Inicio"],
+    ["demo", "Demo"],
     ["simulacros", "Simulacros"],
  /*    ["course", "Curso"],
     ["plans", "Planes"], */
@@ -125,7 +127,11 @@ function Topbar({ page, setPage, user, logout }) {
         </div>
         <div className="nav">
           {nav.map(([key, label]) => (
-            <button key={key} className={page === key ? "active" : ""} onClick={() => setPage(key)}>
+            <button
+              key={key}
+              className={(key === "demo" ? page === "exam" && examType === DEMO_EXAM_TYPE : page === key) ? "active" : ""}
+              onClick={() => key === "demo" ? openDemoExam() : setPage(key)}
+            >
               {label}
             </button>
           ))}
@@ -441,7 +447,7 @@ function Course({ user }) {
   );
 }
 
-function FinalExam({ user, examType, refreshUser }) {
+function FinalExam({ user, examType, refreshUser, setPage }) {
   const [questions, setQuestions] = useState([]);
   const [current, setCurrent] = useState(0);
   const [answers, setAnswers] = useState({});
@@ -500,7 +506,7 @@ function FinalExam({ user, examType, refreshUser }) {
     }
   }
 
-  if (!user) return <NeedLogin setPage={() => {}} />;
+  if (!user) return <NeedLogin setPage={setPage} />;
 
   if (error) {
     return (
@@ -725,6 +731,11 @@ export default function App() {
   const [user, setUser] = useState(readUser());
   const [examType, setExamType] = useState("GENERIC");
 
+  function openDemoExam() {
+    setExamType(DEMO_EXAM_TYPE);
+    setPage("exam");
+  }
+
   function logout() {
     localStorage.removeItem("convocapro-user");
     setUser(null);
@@ -733,12 +744,19 @@ export default function App() {
 
   return (
     <>
-      <Topbar page={page} setPage={setPage} user={user} logout={logout} />
+      <Topbar
+        page={page}
+        setPage={setPage}
+        user={user}
+        logout={logout}
+        examType={examType}
+        openDemoExam={openDemoExam}
+      />
       {page === "home" && <Home setPage={setPage} />}
       {page === "auth" && <Auth setUser={setUser} setPage={setPage} />}
       {page === "simulacros" && <Simulacros user={user} setPage={setPage} refreshUser={setUser} setExamType={setExamType} />}
       {page === "course" && <Course user={user} />}
-      {page === "exam" && <FinalExam user={user} examType={examType} refreshUser={setUser} />}
+      {page === "exam" && <FinalExam user={user} examType={examType} refreshUser={setUser} setPage={setPage} />}
       {page === "admin" && (
         user?.role === "ADMIN"
           ? <Admin />
