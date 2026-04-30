@@ -196,14 +196,9 @@ function Home({ setPage }) {
 }
 
 function Auth({ setUser, setPage }) {
-  const [mode, setMode] = useState("login");
   const [form, setForm] = useState({
-    fullName: "",
     username: "admin",
-    email: "",
-    phone: "",
-    password: "1234",
-    profile: "TECNICO"
+    password: "1234"
   });
   const [error, setError] = useState("");
 
@@ -211,21 +206,10 @@ function Auth({ setUser, setPage }) {
     e.preventDefault();
     setError("");
     try {
-      const url = mode === "login" ? `${API}/api/auth/login` : `${API}/api/auth/register`;
-      const body = mode === "login"
-        ? { username: form.username, password: form.password }
-        : {
-          fullName: form.fullName,
-          username: form.username,
-          email: form.email,
-          phone: form.phone,
-          password: form.password,
-          profile: form.profile
-        };
-      const res = await fetch(url, {
+      const res = await fetch(`${API}/api/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body)
+        body: JSON.stringify({ username: form.username, password: form.password })
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Error");
@@ -242,29 +226,14 @@ function Auth({ setUser, setPage }) {
     <section className="section">
       <div className="container grid-2 grid">
         <div className="card pad">
-          <div className="title">{mode === "login" ? "Login" : "Registro"}</div>
+          <div className="title">Login</div>
           <p className="subtitle"></p>
           <form onSubmit={submit}>
-            {mode === "register" && (
-              <>
-                <input className="input" placeholder="Nombre completo" value={form.fullName} onChange={e => setForm({ ...form, fullName: e.target.value })} required />
-                <input className="input" placeholder="Email" value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} required />
-                <input className="input" placeholder="WhatsApp / teléfono" value={form.phone} onChange={e => setForm({ ...form, phone: e.target.value })} />
-                <select value={form.profile} onChange={e => setForm({ ...form, profile: e.target.value })}>
-                  <option value="ASISTENCIAL">Asistencial</option>
-                  <option value="TECNICO">Técnico</option>
-                  <option value="PROFESIONAL">Profesional</option>
-                </select>
-              </>
-            )}
             <input className="input" placeholder="Usuario" value={form.username} onChange={e => setForm({ ...form, username: e.target.value })} required />
             <input className="input" placeholder="Contraseña" type="password" value={form.password} onChange={e => setForm({ ...form, password: e.target.value })} required />
             {error && <div className="error">{error}</div>}
             <div className="actions">
-              <button className="btn primary" type="submit">{mode === "login" ? "Entrar" : "Crear cuenta"}</button>
-              <button className="btn outline" type="button" onClick={() => setMode(mode === "login" ? "register" : "login")}>
-                {mode === "login" ? "Crear usuario" : "Ya tengo cuenta"}
-              </button>
+              <button className="btn primary" type="submit">Entrar</button>
             </div>
           </form>
         </div>
