@@ -198,7 +198,7 @@ function Home({ setPage }) {
 function Auth({ setUser, setPage }) {
   const [form, setForm] = useState({
     username: "admin",
-    password: "1234"
+    password: ""
   });
   const [error, setError] = useState("");
 
