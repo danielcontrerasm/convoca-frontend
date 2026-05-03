@@ -203,6 +203,7 @@ function Home({ setPage }) {
              <img src={heroGirl} alt="Estudiante preparando CNSC" />
            </div>
          </div>
+        </div>
       </section>
 
       <section className="section neon-section">
