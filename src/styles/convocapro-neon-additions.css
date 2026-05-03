@@ -178,3 +178,75 @@ body {
   .upcoming-grid { grid-template-columns: 1fr; }
   .slider-arrow { display: none; }
 }
+
+body {
+  background: #050816 !important;
+  color: #f8fafc !important;
+}
+
+.topbar {
+  background: rgba(5, 8, 22, 0.92) !important;
+  border-bottom: 1px solid rgba(139, 92, 246, 0.25) !important;
+  backdrop-filter: blur(14px);
+}
+
+.logo-title,
+.logo-sub,
+.nav button {
+  color: #f8fafc !important;
+}
+
+.hero,
+.section {
+  background: transparent !important;
+}
+
+.card,
+.plan-card,
+.unit,
+.stat,
+.question-card,
+.user-row {
+  background: rgba(15, 23, 42, 0.82) !important;
+  color: #f8fafc !important;
+  border: 1px solid rgba(96, 165, 250, 0.25) !important;
+}
+
+.card h1,
+.card h2,
+.card h3,
+.plan-card h3,
+.title,
+.h1 {
+  color: #ffffff !important;
+}
+
+.subtitle,
+.lead,
+.small,
+.plan-card p,
+.unit p {
+  color: #cbd5e1 !important;
+}
+
+.plan-card li {
+  color: #e2e8f0 !important;
+}
+
+.input {
+  background: rgba(15, 23, 42, 0.9) !important;
+  color: white !important;
+  border: 1px solid rgba(148, 163, 184, 0.35) !important;
+}
+
+.input::placeholder {
+  color: #94a3b8 !important;
+}
+
+.hero {
+  padding-top: 140px !important;
+}
+
+.section {
+  padding-top: 70px !important;
+}
