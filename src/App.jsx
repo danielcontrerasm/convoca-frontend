@@ -195,14 +195,14 @@ function Home({ setPage }) {
             </div>
           </div>
 
-         <div className="hero-visual card">
+
            <div className="progress-widget">
              <div className="small">Tu progreso</div>
              <div className="progress-ring">72%</div>
              <div className="small">Vas por buen camino</div>
            </div>
 
-         </div>
+
         </div>
       </section>
 
