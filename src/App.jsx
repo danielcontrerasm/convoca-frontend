@@ -1,80 +1,22 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   BookOpen, Users, ClipboardList, PlayCircle, FileText, Video,
-  Puzzle, CheckCircle2, XCircle, BarChart3, LogOut, Settings, ShieldCheck, Upload
+  Puzzle, CheckCircle2, XCircle, BarChart3, LogOut, Settings, ShieldCheck, Upload,
+  Award, Trophy, GraduationCap, MessageCircle, Mail, Clock, Crown, Lock,
+  Send, Star, Headphones, Target, FileQuestion, ChartNoAxesColumnIncreasing
 } from "lucide-react";
 
 const API = import.meta.env.VITE_API_URL || "https://convocapro-backend-production.up.railway.app";
 const DEMO_EXAM_TYPE = "DEMO";
 const DEMO_USER_ID = import.meta.env.VITE_DEMO_USER_ID || "7";
 const DEMO_QUESTION_COUNT = 20;
-const EXAMS = [
-  {
-    title: "Examen práctico",
-    examType: "GENERIC",
-    badge: "Base",
-    description: "Banco general para entrenar comprensión lectora y competencias básicas.",
-    questions: "200"
-  },
-     {
-       title: "Genérico CNSC Real 100",
-       examType: "GENERIC_CNSC_REAL_100",
-       badge: "Real",
-       description: "Banco genérico con trampas conceptuales, principios y razonamiento.",
-       questions: "100"
-     },
-     {
-       title: "Examen Trampa CNSC 50",
-       examType: "GENERIC_CNSC_TRAP_50",
-       badge: "Premium",
-       description: "Preguntas difíciles con opciones plausibles y análisis fino.",
-       questions: "50"
-     }
-,
-  {
-    title: "Profesional Territorial 12 - 50",
-    examType: "TERRITORIAL_12_PROFESIONAL_50",
-    badge: "Profesional Pro",
-    description: "Banco técnico ampliado para preparación intensiva.",
-    questions: "50"
-  },
-  {
-    title: "Técnico Territorial 12 - 50",
-    examType: "TERRITORIAL_12_TECNICO_50",
-    badge: "Técnico",
-    description: "Simulacro técnico corto con preguntas revisadas.",
-    questions: "50"
-  },
-  {
-    title: "Técnico Territorial 12 - 100",
-    examType: "TERRITORIAL_12_TECNICO_100",
-    badge: "Técnico Pro",
-    description: "Banco técnico ampliado para preparación intensiva.",
-    questions: "100"
-  },{
-        title: "Simulacro Territorial 12",
-        examType: "TERRITORIAL_12",
-        badge: "Simulacro",
-        description: "Banco separado para preparación de Territorial 12.",
-        questions: "200"
-      },
-     {
-       title: "Asistencial Territorial 12 - 50",
-       examType: "TERRITORIAL_12_ASISTENCIAL_50",
-       badge: "Asistencial Pro",
-       description: "Banco técnico ampliado para preparación intensiva.",
-       questions: "50"
-     }
- ,
-   {
-     title: "Asistencial Territorial 12 - 50 Segundo Examen",
-     examType: "TERRITORIAL_12_ASISTENCIAL_50_2",
-     badge: "Asistencial Pro",
-     description: "Banco técnico ampliado para preparación intensiva.",
-     questions: "50"
-   }
-
-];
+const DEFAULT_EXAM = {
+  title: "Examen práctico",
+  examType: "GENERIC",
+  badge: "Base",
+  description: "Banco general para entrenar comprensión lectora y competencias básicas.",
+  questions: "20"
+};
 
 const PLANS = [
   {
@@ -161,36 +103,236 @@ function Topbar({ page, setPage, user, logout, examType, openDemoExam }) {
   );
 }
 
+const SLIDER_ITEMS = [
+  {
+    title: "Simulacros idénticos al examen real",
+    description: "Entrena con experiencia cronometrada, preguntas tipo CNSC y resultados inmediatos.",
+    image: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=900&q=80"
+  },
+  {
+    title: "Análisis detallado de desempeño",
+    description: "Visualiza aciertos, errores y categorías para reforzar donde más lo necesitas.",
+    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=900&q=80"
+  },
+  {
+    title: "Estudia desde cualquier lugar",
+    description: "Acceso desde computador o celular para preparar tu perfil Asistencial, Técnico o Profesional.",
+    image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=900&q=80"
+  },
+  {
+    title: "Contenido actualizado según CNSC",
+    description: "Banco organizado por perfiles, competencias, dificultad y tipo de simulacro.",
+    image: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=900&q=80"
+  }
+];
+
+const VALUE_CARDS = [
+  {
+    icon: <FileQuestion size={24} />,
+    title: "Simulacros reales",
+    text: "Simulacros idénticos al examen CNSC.",
+    image: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=700&q=80"
+  },
+  {
+    icon: <ChartNoAxesColumnIncreasing size={24} />,
+    title: "Análisis de desempeño",
+    text: "Identifica tus errores por competencias.",
+    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=700&q=80"
+  },
+  {
+    icon: <BookOpen size={24} />,
+    title: "Estudia desde cualquier lugar",
+    text: "Accede desde tu celular o computador.",
+    image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=700&q=80"
+  },
+  {
+    icon: <ShieldCheck size={24} />,
+    title: "Contenido actualizado",
+    text: "Basado en estructura real de la CNSC.",
+    image: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=700&q=80"
+  }
+];
+
+const TESTIMONIALS = [
+  { name: "María G.", role: "Profesional Universitario", text: "Gracias a ConvocaPro entendí mis debilidades y mejoré muchísimo. Pasé la CNSC en mi primer intento." },
+  { name: "Carlos A.", role: "Técnico Administrativo", text: "Los simulacros son idénticos al examen real. La plataforma es intuitiva y muy completa." },
+  { name: "Laura P.", role: "Asistencial", text: "Me encantan las explicaciones detalladas, aprendes en cada pregunta que respondes." }
+];
+
+const UPCOMING_EXAMS = [
+  ["Simulacro 4", "Profesional"],
+  ["Simulacro 5", "Técnico"],
+  ["Simulacro 6", "Asistencial"],
+  ["Simulacro 7", "Mixto"],
+  ["Simulacro 8", "Avanzado"],
+  ["Simulacro 9", "Final"]
+];
+
 function Home({ setPage }) {
   return (
     <>
-      <section className="hero">
+      <section className="hero neon-home">
         <div className="container grid-hero">
-          <div className="card pad hero-main">
-            <div className="badge"><ShieldCheck size={16}/> Plataforma educativa completa</div>
-            <div className="h1">ConvocaPro para preparar perfiles Asistencial, Técnico y Profesional.</div>
+          <div className="card pad hero-main neon-hero-card">
+            <div className="badge"><ShieldCheck size={16}/> Plataforma #1 para la CNSC Territorial 12</div>
+            <div className="h1">Aprueba la <span>CNSC</span> Territorial 12</div>
             <p className="lead">
-              Plataforma de preparación con login, registro, simulacros, cursos,
-              actividades, examen final de 200 preguntas por perfil, resultados en verde/rojo,
-              retries y administración de usuarios.
+              Simulacros reales, preguntas actualizadas, cursos por perfil y análisis inteligente
+              para ayudarte a lograr tu mejor resultado.
             </p>
+            <div className="hero-kpis">
+              <div><FileQuestion size={18}/><b>+10.000</b><small>Preguntas tipo CNSC</small></div>
+              <div><Clock size={18}/><b>Simulacros</b><small>Cronometrados</small></div>
+              <div><Target size={18}/><b>Resultados</b><small>Inmediatos</small></div>
+            </div>
             <div className="actions">
-              <button className="btn primary" onClick={() => setPage("auth")}>Entrar / Registrarme</button>
-              <button className="btn outline" onClick={() => setPage("simulacros")}>Ver Simulacros</button>
+              <button className="btn primary" onClick={() => setPage("auth")}>Comenzar simulacro</button>
+              <button className="btn outline" onClick={() => setPage("plans")}>Ver planes</button>
             </div>
           </div>
-          <div className="card pad">
-            <div className="badge">Incluido</div>
-            <div className="grid" style={{ marginTop: 18 }}>
-               <div className="mini">✅ 3 examenes generico de CNSC para que te entrenes en este tipo de preguntas </div>
-               <div className="mini">✅ Examenes de 50, 100 y 150 preguntas con diferentes niveles de dificultad</div>
-               <div className="mini">✅ 200 preguntas por examen final según perfil</div>
-              <div className="mini">✅ Cursos con unidades, PDFs, Excel, videos y actividades</div>
 
+          <div className="hero-visual card pad">
+            <div className="progress-widget">
+              <div className="small">Tu progreso</div>
+              <div className="progress-ring">72%</div>
+              <div className="small">Vas por buen camino</div>
+            </div>
+            <div className="student-visual">
+              <GraduationCap size={72}/>
+              <p>Entrena por perfil: Asistencial, Técnico y Profesional.</p>
             </div>
           </div>
         </div>
       </section>
+
+      <section className="section neon-section">
+        <div className="container neon-slider card pad">
+          <button className="slider-arrow">‹</button>
+          <div className="slider-grid">
+            {SLIDER_ITEMS.map(item => (
+              <div className="slider-tile" key={item.title}>
+                <img src={item.image} alt={item.title} />
+                <div>
+                  <h3>{item.title}</h3>
+                  <p>{item.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+          <button className="slider-arrow">›</button>
+        </div>
+      </section>
+
+      <section className="section neon-section compact-top">
+        <div className="container grid grid-4">
+          {VALUE_CARDS.map(card => (
+            <div className="value-card" key={card.title}>
+              <img src={card.image} alt={card.title} />
+              <div className="value-icon">{card.icon}</div>
+              <h3>{card.title}</h3>
+              <p>{card.text}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <Plans />
+
+      <section className="section neon-section">
+        <div className="container">
+          <h2 className="title center">Lo que dicen nuestros aspirantes</h2>
+          <div className="grid grid-3">
+            {TESTIMONIALS.map(t => (
+              <div className="testimonial-card" key={t.name}>
+                <div className="stars">{Array.from({ length: 5 }).map((_, i) => <Star key={i} size={15} fill="currentColor" />)}</div>
+                <p>“{t.text}”</p>
+                <b>{t.name}</b>
+                <div className="small">{t.role}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="section compact-top neon-section">
+        <div className="container stats-strip">
+          <div><Users size={34}/><b>12.450+</b><span>Estudiantes activos</span></div>
+          <div><GraduationCap size={34}/><b>85%</b><span>Tasa de aprobación</span></div>
+          <div><MessageCircle size={34}/><b>320.000+</b><span>Preguntas respondidas</span></div>
+          <div><Trophy size={34}/><b>9.800+</b><span>Simulacros realizados</span></div>
+        </div>
+      </section>
+
+      <section className="section neon-section">
+        <div className="container split-showcase">
+          <div>
+            <div className="section-head-inline">
+              <h2 className="title">Simulacros disponibles</h2>
+              <button className="link-button" onClick={() => setPage("simulacros")}>Ver todos →</button>
+            </div>
+            <div className="grid grid-3">
+              {["Profesional Universitario", "Técnico Administrativo", "Asistencial"].map((profile, i) => (
+                <div className="unit exam-card mini-exam" key={profile}>
+                  <div className="badge">Disponible</div>
+                  <FileText size={32}/>
+                  <h3>Simulacro {i + 1}</h3>
+                  <p>{profile}</p>
+                  <div className="small">200 preguntas · 2h 30m</div>
+                  <button className="btn primary" onClick={() => setPage("simulacros")}>Iniciar simulacro</button>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <h2 className="title">Próximamente (6 más)</h2>
+            <div className="upcoming-grid">
+              {UPCOMING_EXAMS.map(([name, profile]) => (
+                <div className="upcoming-card" key={name}>
+                  <Lock size={26}/>
+                  <b>{name}</b>
+                  <span>{profile}</span>
+                  <small>Próximamente</small>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="section contact-band">
+        <div className="container contact-grid">
+          <div>
+            <h2 className="title">¿Tienes dudas? Contáctanos</h2>
+            <p className="subtitle">Estamos aquí para ayudarte en tu preparación.</p>
+            <input className="input" placeholder="Nombre completo" />
+            <input className="input" placeholder="Correo electrónico" />
+            <textarea className="input" placeholder="Mensaje" rows="4" />
+            <button className="btn primary"><Send size={16}/> Enviar mensaje</button>
+          </div>
+          <div className="support-card card pad">
+            <Headphones size={58}/>
+            <h3>Escríbenos por nuestros canales</h3>
+            <p><MessageCircle size={16}/> WhatsApp: +57 300 123 4567</p>
+            <p><Mail size={16}/> soporte@convocapro.com</p>
+            <p><Clock size={16}/> Lunes a viernes · 8:00 a.m. - 6:00 p.m.</p>
+            <button className="btn primary">Hablar por WhatsApp</button>
+          </div>
+        </div>
+      </section>
+
+      <footer className="footer neon-footer">
+        <div className="container footer-grid">
+          <div>
+            <div className="logo-title">ConvocaPro</div>
+            <p>Plataforma líder en simulacros para concursos de mérito. No estamos afiliados a la CNSC.</p>
+          </div>
+          <div><b>Enlaces rápidos</b><p>Inicio<br/>Simulacros<br/>Cursos<br/>Planes<br/>Contacto</p></div>
+          <div><b>Información</b><p>¿Cómo funciona?<br/>Preguntas frecuentes<br/>Términos y condiciones<br/>Política de privacidad</p></div>
+          <div><b>Mapa del sitio</b><div className="site-map"><span>Inicio</span><span>Simulacros</span><span>Cursos</span><span>Exámenes</span><span>Planes</span><span>Ayuda</span></div></div>
+        </div>
+        <div className="footer-bottom">© 2024 ConvocaPro. Todos los derechos reservados.</div>
+      </footer>
     </>
   );
 }
@@ -252,9 +394,26 @@ function Auth({ setUser, setPage }) {
 
 function Simulacros({ user, setPage, refreshUser, setSelectedExam }) {
   const [stats, setStats] = useState(null);
+  const [exams, setExams] = useState([]);
+  const [loadingExams, setLoadingExams] = useState(true);
+  const [examError, setExamError] = useState("");
 
   useEffect(() => {
     fetch(`${API}/api/users/stats`).then(r => r.json()).then(setStats).catch(() => {});
+
+    fetch(`${API}/api/exams`)
+      .then(async r => {
+        const data = await r.json();
+        if (!r.ok) throw new Error(data.error || "No se pudieron cargar los exámenes");
+        return data;
+      })
+      .then(data => setExams(Array.isArray(data) ? data.filter(e => e.active !== false) : []))
+      .catch(err => {
+        setExamError(err.message || "No se pudieron cargar los exámenes");
+        setExams([]);
+      })
+      .finally(() => setLoadingExams(false));
+
     if (user?.userId) {
       fetch(`${API}/api/users/${user.userId}`).then(r => r.json()).then(data => {
         const merged = normalizeUser({ ...user, ...data, userId: data.id ?? user.userId });
@@ -285,28 +444,42 @@ function Simulacros({ user, setPage, refreshUser, setSelectedExam }) {
 
         <div className="section">
           <h2 className="title">Exámenes disponibles</h2>
-          <p className="subtitle">Elige un banco de preguntas para presentar el simulacro.</p>
-          <div className="grid grid-3">
-            {EXAMS.map(exam => (
-              <div className="unit exam-card" key={exam.examType}>
-                <div className="badge">{exam.badge}</div>
-                <h3>{exam.title}</h3>
-                <p>{exam.description}</p>
-                <div className="mini"><b>{exam.questions}</b> preguntas</div>
-                <button className="btn dark" onClick={() => { setSelectedExam(exam); setPage("exam"); }}>
-                  Abrir simulacro
-                </button>
-              </div>
-            ))}
-          </div>
-        </div>
+          <p className="subtitle">Estos bancos se cargan desde la base de datos por medio de <b>/api/exams</b>.</p>
 
-      {/*   <div className="section grid grid-4">
-          <div className="stat"><div className="small">Usuarios totales</div><div className="stat-number">{stats?.totalUsers ?? "-"}</div></div>
-          <div className="stat"><div className="small">Usuarios activos</div><div className="stat-number">{stats?.activeUsers ?? "-"}</div></div>
-          <div className="stat"><div className="small">Accesos totales</div><div className="stat-number">{stats?.totalAccesses ?? "-"}</div></div>
-          <div className="stat"><div className="small">Tu perfil</div><div className="stat-number" style={{ fontSize: "1.4rem" }}>{user.profile}</div></div>
-        </div> */}
+          {loadingExams && <div className="card pad">Cargando exámenes...</div>}
+          {!loadingExams && examError && <div className="error">{examError}</div>}
+          {!loadingExams && !examError && exams.length === 0 && (
+            <div className="card pad">No hay exámenes activos disponibles.</div>
+          )}
+
+          {!loadingExams && exams.length > 0 && (
+            <div className="grid grid-3">
+              {exams.map(exam => (
+                <div className="unit exam-card" key={exam.examType || exam.id}>
+                  <div className="badge">{exam.badge || exam.profile || "Simulacro"}</div>
+                  <h3>{exam.title || exam.name}</h3>
+                  <p>{exam.description || "Banco de preguntas disponible para entrenamiento."}</p>
+                  <div className="mini"><b>{exam.questions ?? exam.questionCount ?? exam.totalQuestions}</b> preguntas</div>
+                  <button
+                    className="btn dark"
+                    onClick={() => {
+                      setSelectedExam({
+                        title: exam.title || exam.name,
+                        examType: exam.examType,
+                        badge: exam.badge || exam.profile || "Simulacro",
+                        description: exam.description || "Banco de preguntas disponible para entrenamiento.",
+                        questions: String(exam.questions ?? exam.questionCount ?? exam.totalQuestions ?? 20)
+                      });
+                      setPage("exam");
+                    }}
+                  >
+                    Abrir simulacro
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
     </section>
   );
@@ -717,7 +890,7 @@ function Admin() {
 export default function App() {
   const [page, setPage] = useState("home");
   const [user, setUser] = useState(readUser());
-  const [selectedExam, setSelectedExam] = useState(EXAMS[0]);
+  const [selectedExam, setSelectedExam] = useState(DEFAULT_EXAM);
 
   function openDemoExam() {
     setSelectedExam({
@@ -750,6 +923,7 @@ export default function App() {
       {page === "auth" && <Auth setUser={setUser} setPage={setPage} />}
       {page === "simulacros" && <Simulacros user={user} setPage={setPage} refreshUser={setUser} setSelectedExam={setSelectedExam} />}
       {page === "course" && <Course user={user} />}
+      {page === "plans" && <Plans />}
       {page === "exam" && <FinalExam user={user} selectedExam={selectedExam} refreshUser={setUser} setPage={setPage} />}
       {page === "admin" && (
         user?.role === "ADMIN"
