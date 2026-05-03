@@ -781,7 +781,7 @@ function FinalExam({ user, selectedExam, refreshUser, setPage }) {
 
 function Plans({ compact = false }) {
   return (
-    <section className={compact ? "section" : "section"}>
+    <section className={compact ? "section plans-section" : "section plans-section"} >
       <div className="container">
         <h2 className="title">Planes</h2>
         <p className="subtitle">Organiza el acceso por nivel de preparación.</p>

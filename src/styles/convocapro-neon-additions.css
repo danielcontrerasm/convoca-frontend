@@ -1,5 +1,6 @@
 
 /* ConvocaPro Neon Landing Additions - paste into src/index.css or src/App.css */
+/* Commit 919eee7: base neon landing theme, shared tokens, hero cards, slider, stats, contact, footer, and responsive layout. */
 :root {
   --cp-bg: #050814;
   --cp-bg-2: #08122b;
@@ -179,6 +180,7 @@ body {
   .slider-arrow { display: none; }
 }
 
+/* Commit b23e4f6: global dark neon overrides for backgrounds, text contrast, cards, form inputs, and section spacing. */
 body {
   background: #050816 !important;
   color: #f8fafc !important;
@@ -251,6 +253,7 @@ body {
   padding-top: 70px !important;
 }
 
+/* Commit 93ac8fa: visual polish for the student image, progress widget positioning, neon buttons, plan cards, section titles, and badges. */
 .student-visual {
   position: relative;
   height: 100%;
@@ -347,6 +350,7 @@ body {
   border-radius: 999px !important;
 }
 
+/* Commit b832c1a: topbar, logo, navigation, hero image card, and wider hero grid refinements. */
 .topbar {
   position: sticky;
   top: 0;
@@ -424,6 +428,7 @@ body {
   overflow: hidden !important;
 }
 
+/* Commit fd063f2: hero media fit corrections so the image fills the card cleanly with rounded edges. */
 .student-visual {
   position: absolute;
   inset: 0;
@@ -458,6 +463,7 @@ body {
   transform: scale(1.08) !important;
 }
 
+/* Commit 93701fe: converts the hero to a full-width background image with a left-side readability overlay. */
 .hero {
   position: relative;
   min-height: 560px;
@@ -507,6 +513,7 @@ body {
   z-index: 3;
 }
 
+/* Commit f305709: final home layout tweaks for nav alignment, hero image crop, main copy width, and progress card sizing. */
 .topbar-inner {
   min-height: 86px !important;
   display: flex !important;
@@ -589,4 +596,100 @@ body {
 .progress-mini b {
   color: white;
   font-size: 0.9rem;
+}
+
+/* PLANS - closer to mockup */
+.plans-section .grid-3,
+.section .grid-3:has(.plan-card) {
+  gap: 22px !important;
+  align-items: stretch !important;
+}
+
+.plan-card {
+  position: relative !important;
+  min-height: 300px !important;
+  padding: 30px 28px 24px !important;
+  border-radius: 22px !important;
+  background:
+    radial-gradient(circle at top left, rgba(139,92,246,0.18), transparent 34%),
+    linear-gradient(180deg, rgba(15,23,42,0.94), rgba(2,6,23,0.96)) !important;
+  border: 1px solid rgba(139,92,246,0.38) !important;
+  box-shadow: 0 18px 50px rgba(0,0,0,0.35) !important;
+}
+
+.plan-card.featured {
+  transform: translateY(-12px) !important;
+  border: 1px solid rgba(34,211,238,0.95) !important;
+  box-shadow:
+    0 0 24px rgba(34,211,238,0.38),
+    0 0 42px rgba(139,92,246,0.18),
+    0 24px 60px rgba(0,0,0,0.5) !important;
+}
+
+.plan-card::before {
+  font-size: 2.4rem;
+  display: block;
+  margin-bottom: 12px;
+  filter: drop-shadow(0 0 12px rgba(139,92,246,0.7));
+}
+
+.plan-card:nth-child(1)::before {
+  content: "🚀";
+}
+
+.plan-card:nth-child(2)::before {
+  content: "👑";
+}
+
+.plan-card:nth-child(3)::before {
+  content: "💎";
+}
+
+.plan-card .badge {
+  display: inline-flex !important;
+  margin-bottom: 12px !important;
+}
+
+.plan-card h3 {
+  font-size: 2rem !important;
+  line-height: 1 !important;
+  margin: 4px 0 8px !important;
+}
+
+.plan-card p {
+  margin-bottom: 22px !important;
+  color: #cbd5e1 !important;
+}
+
+.plan-card ul {
+  list-style: none !important;
+  padding: 0 !important;
+  margin: 0 0 24px !important;
+}
+
+.plan-card li {
+  margin: 10px 0 !important;
+  font-size: 0.95rem !important;
+}
+
+.plan-card .btn {
+  width: 100% !important;
+  justify-content: center !important;
+  margin-top: auto !important;
+}
+
+.plan-card.featured::after {
+  content: "MÁS ELEGIDO";
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 7px 28px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #2563eb, #a855f7);
+  color: white;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  box-shadow: 0 0 20px rgba(168,85,247,0.65);
 }
