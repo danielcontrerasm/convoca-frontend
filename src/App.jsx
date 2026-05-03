@@ -192,17 +192,17 @@ function Home({ setPage }) {
             </div>
           </div>
 
-          <div className="hero-visual card pad">
-            <div className="progress-widget">
-              <div className="small">Tu progreso</div>
-              <div className="progress-ring">72%</div>
-              <div className="small">Vas por buen camino</div>
-            </div>
-            <div className="student-visual">
-              <img src={heroGirl} alt="Estudiante CNSC" />
-            </div>
-          </div>
-        </div>
+         <div className="hero-visual card">
+           <div className="progress-widget">
+             <div className="small">Tu progreso</div>
+             <div className="progress-ring">72%</div>
+             <div className="small">Vas por buen camino</div>
+           </div>
+
+           <div className="student-visual">
+             <img src={heroGirl} alt="Estudiante preparando CNSC" />
+           </div>
+         </div>
       </section>
 
       <section className="section neon-section">
