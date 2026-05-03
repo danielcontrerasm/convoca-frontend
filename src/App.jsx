@@ -6,6 +6,7 @@ import {
   Send, Star, Headphones, Target, FileQuestion, ChartNoAxesColumnIncreasing
 } from "lucide-react";
 import "./styles/convocapro-neon-additions.css";
+import heroGirl from "../assets/images/hero-girl.jpg";
 const API = import.meta.env.VITE_API_URL || "https://convocapro-backend-production.up.railway.app";
 const DEMO_EXAM_TYPE = "DEMO";
 const DEMO_USER_ID = import.meta.env.VITE_DEMO_USER_ID || "7";
@@ -198,8 +199,7 @@ function Home({ setPage }) {
               <div className="small">Vas por buen camino</div>
             </div>
             <div className="student-visual">
-              <GraduationCap size={72}/>
-              <p>Entrena por perfil: Asistencial, Técnico y Profesional.</p>
+              <img src={heroGirl} alt="Estudiante CNSC" />
             </div>
           </div>
         </div>
@@ -396,30 +396,25 @@ function Simulacros({ user, setPage, refreshUser, setSelectedExam }) {
   const [stats, setStats] = useState(null);
   const [exams, setExams] = useState([]);
   const [loadingExams, setLoadingExams] = useState(true);
-  const [examError, setExamError] = useState("");
 
   useEffect(() => {
     fetch(`${API}/api/users/stats`).then(r => r.json()).then(setStats).catch(() => {});
 
     fetch(`${API}/api/exams`)
-      .then(async r => {
-        const data = await r.json();
-        if (!r.ok) throw new Error(data.error || "No se pudieron cargar los exámenes");
-        return data;
-      })
-      .then(data => setExams(Array.isArray(data) ? data.filter(e => e.active !== false) : []))
-      .catch(err => {
-        setExamError(err.message || "No se pudieron cargar los exámenes");
-        setExams([]);
-      })
+      .then(r => r.json())
+      .then(data => setExams(Array.isArray(data) ? data : []))
+      .catch(() => setExams([]))
       .finally(() => setLoadingExams(false));
 
     if (user?.userId) {
-      fetch(`${API}/api/users/${user.userId}`).then(r => r.json()).then(data => {
-        const merged = normalizeUser({ ...user, ...data, userId: data.id ?? user.userId });
-        saveUser(merged);
-        refreshUser(merged);
-      }).catch(() => {});
+      fetch(`${API}/api/users/${user.userId}`)
+        .then(r => r.json())
+        .then(data => {
+          const merged = normalizeUser({ ...user, ...data, userId: data.id ?? user.userId });
+          saveUser(merged);
+          refreshUser(merged);
+        })
+        .catch(() => {});
     }
   }, []);
 
@@ -430,45 +425,48 @@ function Simulacros({ user, setPage, refreshUser, setSelectedExam }) {
       <div className="container">
         <div className="card pad hero-main">
           <div className="badge"><BarChart3 size={16}/> Simulacros del usuario</div>
-          <h1 className="title" style={{ fontSize: "2.7rem", marginTop: 16 }}>Hola, {user.fullName || user.username}</h1>
+          <h1 className="title" style={{ fontSize: "2.7rem", marginTop: 16 }}>
+            Hola, {user.fullName || user.username}
+          </h1>
           <p className="subtitle">
             Perfil: <b>{user.profile}</b> · Intentos: <b>{user.retriesUsed ?? 0}/{user.retryLimit ?? 3}</b> · Accesos: <b>{user.totalAccesses ?? 0}</b>
           </p>
           <div className="actions">
-            <button className="btn primary" onClick={() => setPage("course")}><BookOpen size={16}/> Ir al curso</button>
+            <button className="btn primary" onClick={() => setPage("course")}>
+              <BookOpen size={16}/> Ir al curso
+            </button>
             {user?.role === "ADMIN" && (
-              <button className="btn outline" onClick={() => setPage("admin")}><Users size={16}/> Admin</button>
+              <button className="btn outline" onClick={() => setPage("admin")}>
+                <Users size={16}/> Admin
+              </button>
             )}
           </div>
         </div>
 
         <div className="section">
           <h2 className="title">Exámenes disponibles</h2>
-          <p className="subtitle">Estos bancos se cargan desde la base de datos por medio de <b>/api/exams</b>.</p>
+          <p className="subtitle">Elige un banco cargado desde la base de datos.</p>
 
-          {loadingExams && <div className="card pad">Cargando exámenes...</div>}
-          {!loadingExams && examError && <div className="error">{examError}</div>}
-          {!loadingExams && !examError && exams.length === 0 && (
+          {loadingExams ? (
+            <div className="card pad">Cargando exámenes...</div>
+          ) : exams.length === 0 ? (
             <div className="card pad">No hay exámenes activos disponibles.</div>
-          )}
-
-          {!loadingExams && exams.length > 0 && (
+          ) : (
             <div className="grid grid-3">
               {exams.map(exam => (
-                <div className="unit exam-card" key={exam.examType || exam.id}>
-                  <div className="badge">{exam.badge || exam.profile || "Simulacro"}</div>
-                  <h3>{exam.title || exam.name}</h3>
-                  <p>{exam.description || "Banco de preguntas disponible para entrenamiento."}</p>
-                  <div className="mini"><b>{exam.questions ?? exam.questionCount ?? exam.totalQuestions}</b> preguntas</div>
+                <div className="unit exam-card" key={exam.examType}>
+                  <div className="badge">{exam.badge || "Simulacro"}</div>
+                  <h3>{exam.title}</h3>
+                  <p>{exam.description}</p>
+                  <div className="mini">
+                    <b>{exam.questions}</b> preguntas
+                  </div>
                   <button
                     className="btn dark"
                     onClick={() => {
                       setSelectedExam({
-                        title: exam.title || exam.name,
-                        examType: exam.examType,
-                        badge: exam.badge || exam.profile || "Simulacro",
-                        description: exam.description || "Banco de preguntas disponible para entrenamiento.",
-                        questions: String(exam.questions ?? exam.questionCount ?? exam.totalQuestions ?? 20)
+                        ...exam,
+                        questions: String(exam.questions)
                       });
                       setPage("exam");
                     }}
