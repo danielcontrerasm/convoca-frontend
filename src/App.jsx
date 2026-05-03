@@ -6,7 +6,7 @@ import {
   Send, Star, Headphones, Target, FileQuestion, ChartNoAxesColumnIncreasing
 } from "lucide-react";
 import "./styles/convocapro-neon-additions.css";
-import heroGirl from "../assets/images/hero-girl.jpg";
+import heroGirl from "./assets/images/hero-girl.jpg";
 const API = import.meta.env.VITE_API_URL || "https://convocapro-backend-production.up.railway.app";
 const DEMO_EXAM_TYPE = "DEMO";
 const DEMO_USER_ID = import.meta.env.VITE_DEMO_USER_ID || "7";
