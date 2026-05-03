@@ -200,6 +200,10 @@ function Home({ setPage }) {
              <div className="small">Tu progreso</div>
              <div className="progress-ring">72%</div>
              <div className="small">Vas por buen camino</div>
+             <div className="progress-mini">
+                 <span>Simulacros<br/><b>8/12</b></span>
+                 <span>Correctas<br/><b>845</b></span>
+               </div>
            </div>
 
 
