@@ -173,6 +173,9 @@ function Home({ setPage }) {
   return (
     <>
       <section className="hero neon-home">
+           <div className="hero-bg">
+              <img src={heroGirl} />
+            </div>
         <div className="container grid-hero">
           <div className="card pad hero-main neon-hero-card">
             <div className="badge"><ShieldCheck size={16}/> Plataforma #1 para la CNSC Territorial 12</div>
@@ -199,9 +202,6 @@ function Home({ setPage }) {
              <div className="small">Vas por buen camino</div>
            </div>
 
-           <div className="student-visual">
-             <img src={heroGirl} alt="Estudiante preparando CNSC" />
-           </div>
          </div>
         </div>
       </section>
