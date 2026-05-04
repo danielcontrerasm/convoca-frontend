@@ -177,7 +177,7 @@ function Home({ setPage }) {
               <img src={heroGirl} />
             </div>
         <div className="container grid-hero">
-          <div className="card pad hero-main neon-hero-card">
+          <div className="card pad hero-main ">
             <div className="badge"><ShieldCheck size={16}/> Plataforma #1 para la CNSC Territorial 12</div>
             <div className="h1">Aprueba la <span>CNSC</span> Territorial 12</div>
             <p className="lead">
