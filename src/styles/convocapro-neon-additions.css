@@ -460,7 +460,7 @@ body {
 }
 
 .student-visual img {
-  transform: scale(1.08) !important;
+  transform: scale(0.95) !important;
 }
 
 /* Commit 93701fe: converts the hero to a full-width background image with a left-side readability overlay. */
